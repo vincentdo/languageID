@@ -1,0 +1,39 @@
+#!/usr/bin/env python
+import sys
+from collections import defaultdict
+
+lang = ['eng', 'fra', 'deu', 'ita', 'spa']
+file_suffix = '_train'
+train_dir = '../data/train/'
+input_file = '../data/dev/dev_set'
+
+# Train data
+dict_list = []
+
+for i in xrange(len(lang)):
+  total = 0
+  temp_dict = defaultdict(float)
+  for line in open(train_dir + lang[i] + file_suffix):
+    words = line.strip().split()
+    for word in words:      
+      temp_dict[word] = temp_dict[word] + 1
+      # print temp_dict[word]
+    total += len(words)
+  for key in temp_dict:
+    temp_dict[key] = temp_dict[key] / total
+  dict_list.append(temp_dict)
+
+# Classify language
+for line in open(input_file):
+  words = line.strip().split()
+  samples = []
+  for d in dict_list:
+    sample = 0
+    for word in words:
+       sample += d[word]
+    samples.append(sample)
+  max_index = samples.index(max(samples))
+  print lang[max_index]
+
+
+

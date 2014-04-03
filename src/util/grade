@@ -2,7 +2,7 @@
 import sys
 
 input_source = sys.stdin
-solution_set = '../../data/solution/test_solution'
+solution_set = '../../data/solution/dev_solution'
 
 num_correct = 0
 total = 0
