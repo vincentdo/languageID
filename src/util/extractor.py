@@ -12,8 +12,7 @@ train_dir = '../../data/train/'
 solution_dir = '../../data/solution/'
 
 TRAIN_MAX = 1000
-OTHER_MAX = 3000
-SAMPLE_LENGTH = 40
+OTHER_MAX = 4000
 
 random.seed()
 
@@ -36,7 +35,7 @@ for i in xrange(len(lang)):
       else: 
         # Extracting dev and test data
         start_bound = random.randint(0, len(sentence))
-        end_bound = start_bound + random.randint(15,50)
+        end_bound = start_bound + random.randint(20,50)
         f = random.choice(test_files)
         f.write(lang[i] + '\t' + str(sentence[start_bound:end_bound]) + '\n')
 
@@ -70,15 +69,13 @@ for line in dev_output:
     dev_data.append(sample)
     clean_dev_output.write(language + '\t' + sentence + '\n')
 
-
-
 # Create dataset for dev, testing, and their respective solutions
 test_set = open(test_dir + 'test_set', 'w')
 test_solution = open(solution_dir + 'test_solution', 'w')
 dev_set = open(dev_dir + 'dev_set', 'w')
 dev_solution = open(solution_dir + 'dev_solution', 'w')
 
-for i in xrange(0, 2000):
+for i in xrange(0, 4000):
   test_sample = random.choice(test_data)
   dev_sample = random.choice(dev_data)
   test_set.write(test_sample.sentence + '\n')

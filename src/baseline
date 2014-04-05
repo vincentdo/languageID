@@ -1,0 +1,53 @@
+#!/usr/bin/env python
+import sys
+from collections import defaultdict
+
+lang = ['eng', 'fra', 'deu', 'ita', 'spa']
+file_suffix = '_train'
+train_dir = '../data/train/'
+input_file = '../data/dev/dev_set'
+
+# Train data
+dict_list = []
+
+# Building frequency vector
+for i in xrange(len(lang)):
+  total = 0
+  temp_dict = defaultdict(float)
+  for line in open(train_dir + lang[i] + file_suffix):
+    for i in xrange(len(line)-3):
+      temp_dict[line.strip()[i:i+3]] += 1
+      total += 1
+  # print temp_dict
+  # for key in temp_dict:
+  #   temp_dict[key] = temp_dict[key] / float(total)
+  dict_list.append(temp_dict)
+
+def normalizedDotProduct(l, w):
+  total = 0
+  for key in l:
+    total += l[key] + w[key]
+  total /= (float)(len(l) * len(w))
+  return total
+
+# Classify language
+for line in open(input_file):
+  freq_list = []
+  total = 0 
+  temp_dict = defaultdict(float)    
+  for j in xrange(len(line) - 3):
+    # line.strip()    
+    temp_dict[line.strip()[j:j+3]] += 1
+    total += 1
+  # for key in temp_dict:
+  #   temp_dict[key] = temp_dict[key] / total
+  for d in dict_list:
+    freq_list.append(normalizedDotProduct(temp_dict, d))
+  max_index = freq_list.index(max(freq_list))
+  print lang[max_index]
+
+
+
+
+
+
