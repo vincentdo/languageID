@@ -1,28 +1,39 @@
 #!/usr/bin/env python
 import sys
+import optparse
 from collections import defaultdict
 
-lang = ['eng', 'fra', 'deu', 'ita', 'spa']
-file_suffix = '_train'
-train_dir = '../data/train/'
-input_file = '../data/dev/dev_set'
+optparser = optparse.OptionParser()
+optparser.add_option("-t", "--train", dest="train", default="data/train/", help="Data filename prefix (default=data)")
+optparser.add_option("-s", "--suffix", dest="suffix", default="_train", help="Data filename suffix (default=_train")
+optparser.add_option("-i", "--input", dest="input", default="data/dev/dev_set", help="Name of input file (default=data/dev/dev_set")
 
-# Train data
-dict_list = []
+(opts, _) = optparser.parse_args()
+
+# List of languages expected
+lang = ['eng', 'fra', 'deu', 'ita', 'spa']
+
+suffix = opts.suffix
+train_dir = opts.train
+input_file = opts.input
 
 # Building frequency vector
+dicts = []
 for i in xrange(len(lang)):
+  sys.write.stderr("Processing " + lang[i] + " training data...")
   total = 0
-  temp_dict = defaultdict(float)
-  for line in open(train_dir + lang[i] + file_suffix):
+  temp = defaultdict(float)
+  for line in open(train_dir + lang[i] + suffix):
     for i in xrange(len(line)-3):
-      temp_dict[line.strip()[i:i+3]] += 1
+      # Extracting trigram
+      temp[line.strip()[i:i+3]] += 1
       total += 1
-  # print temp_dict
-  # for key in temp_dict:
-  #   temp_dict[key] = temp_dict[key] / float(total)
-  dict_list.append(temp_dict)
+      if total % 2000:
+        sys.write.stderr(".")
+  dicts.append(temp)
 
+# Function to calculate dot product given 
+# two frequency vectors
 def normalizedDotProduct(l, w):
   total = 0
   for key in l:
@@ -31,23 +42,15 @@ def normalizedDotProduct(l, w):
   return total
 
 # Classify language
+sys.write.stderr("Training data complete - Classifying Inputs...")
 for line in open(input_file):
-  freq_list = []
+  products = []
   total = 0 
-  temp_dict = defaultdict(float)    
+  temp = defaultdict(float)    
   for j in xrange(len(line) - 3):
-    # line.strip()    
-    temp_dict[line.strip()[j:j+3]] += 1
+    temp[line.strip()[j:j+3]] += 1
     total += 1
-  # for key in temp_dict:
-  #   temp_dict[key] = temp_dict[key] / total
-  for d in dict_list:
-    freq_list.append(normalizedDotProduct(temp_dict, d))
-  max_index = freq_list.index(max(freq_list))
+  for d in dicts:
+    products.append(normalizedDotProduct(temp, d))
+  max_index = products.index(max(products))
   print lang[max_index]
-
-
-
-
-
-
