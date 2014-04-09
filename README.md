@@ -9,7 +9,7 @@ Language identification is one of the most basic steps to be taken in many machi
 Under the default directory, we have provided you with a very simple language identification system written in python. To see this system in action, use the following command:
 
 ~~~
-  classify > output
+  default > output
 ~~~
 
 To see the precision of this system:
