@@ -1,4 +1,4 @@
-#CIS 526 TERM PROJECT FINAL WRITE UP
+#CIS 526 TERM PROJECT
 
 ##Challenge Problem – Language Identification
 
@@ -22,9 +22,11 @@ Under the hood, this system use the training data provided to build a dictionary
 The training datasets for the different languages are provided in the train directory under data. These are provided in sentences (each sentence on a line). The development set that you should be used to test your system during your implementation process is in the dev directory. For your submission, run your system against the test set provided in the test directory.
 
 ##The Challenge
+
 Your task is to improve the precision of your system as much as possible. As stated, there are many known algorithms developed for better language identification given a constrained dataset. To improve the precision, you can try to obtain more training data on the web and incorporating that into your system or change the way the language models are built. Additionally, you can try implementing one of these algorithms:
 * Implement the n-gram Text Categorization algorithm (Section 2.3 of this paper http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.48.1958&rep=rep1&type=pdf )
 * Classifying sample text based on tri-gram frequency vectors (Section 2.2 of this paper: http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.48.1958&rep=rep1&type=pdf )
 * Implementing the Hidden Markov Model (Section 2.1 of this paper http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.48.1958&rep=rep1&type=pdf )
 * Implement a Bayesian classifier (http://www.sepln.org/revistaSEPLN/revista/33/33-Pag155.pdf )
+
 But the sky’s the limit. There are numerous methods of implementing language identification. The only thing you are not allowed to do is to go through the provided data and annotate the result yourself (this might be more work than it is worth).
