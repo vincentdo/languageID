@@ -4,9 +4,9 @@ import optparse
 from collections import defaultdict
 
 optparser = optparse.OptionParser()
-optparser.add_option("-t", "--train", dest="train", default="data/train/", help="Data filename prefix (default=data)")
+optparser.add_option("-t", "--train", dest="train", default="../data/train/", help="Data filename prefix (default=data)")
 optparser.add_option("-s", "--suffix", dest="suffix", default="_train", help="Data filename suffix (default=_train")
-optparser.add_option("-i", "--input", dest="input", default="data/dev/dev_set", help="Name of input file (default=data/dev/dev_set")
+optparser.add_option("-i", "--input", dest="input", default="../data/dev/dev_set", help="Name of input file (default=data/dev/dev_set")
 
 (opts, _) = optparser.parse_args()
 
@@ -20,7 +20,7 @@ input_file = opts.input
 # Building frequency vector
 dicts = []
 for i in xrange(len(lang)):
-  sys.write.stderr("Processing " + lang[i] + " training data...")
+  sys.stderr.write("Processing " + lang[i] + " training data...")
   total = 0
   temp = defaultdict(float)
   for line in open(train_dir + lang[i] + suffix):
@@ -28,8 +28,9 @@ for i in xrange(len(lang)):
       # Extracting trigram
       temp[line.strip()[i:i+3]] += 1
       total += 1
-      if total % 2000:
-        sys.write.stderr(".")
+      if total % 5000 == 0:
+        sys.stderr.write(".")
+  sys.stderr.write("\n")  
   dicts.append(temp)
 
 # Function to calculate dot product given 
@@ -42,7 +43,7 @@ def normalizedDotProduct(l, w):
   return total
 
 # Classify language
-sys.write.stderr("Training data complete - Classifying Inputs...")
+sys.stderr.write("Training data complete - Classifying Inputs...")
 for line in open(input_file):
   products = []
   total = 0 
