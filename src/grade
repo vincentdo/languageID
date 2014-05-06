@@ -3,7 +3,7 @@ import sys
 import optparse
 
 optparser = optparse.OptionParser()
-optparser.add_option("-s", "--solution", dest="solution", default="../data/solution/dev_solution", help="Path to solution set")
+optparser.add_option("-s", "--solution", dest="solution", default="../data/solution/test_solution", help="Path to solution set")
 
 (opts, _) = optparser.parse_args()
 

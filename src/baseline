@@ -6,7 +6,7 @@ from collections import defaultdict
 optparser = optparse.OptionParser()
 optparser.add_option("-t", "--train", dest="train", default="../data/train/", help="Data filename prefix (default=data)")
 optparser.add_option("-s", "--suffix", dest="suffix", default="_train", help="Data filename suffix (default=_train")
-optparser.add_option("-i", "--input", dest="input", default="../data/dev/dev_set", help="Name of input file (default=data/dev/dev_set")
+optparser.add_option("-i", "--input", dest="input", default="../data/test/test_set", help="Name of input file (default=data/dev/dev_set")
 
 (opts, _) = optparser.parse_args()
 

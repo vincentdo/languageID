@@ -1,0 +1,42 @@
+#!/usr/bin/env python
+import sys
+import optparse
+import nltk
+from collections import defaultdict
+
+optparser = optparse.OptionParser()
+optparser.add_option("-t", "--train", dest="train", default="../data/train/", help="Data filename prefix (default=data)")
+optparser.add_option("-s", "--suffix", dest="suffix", default="_train", help="Data filename suffix (default=_train")
+optparser.add_option("-i", "--input", dest="input", default="../data/test/test_set", help="Name of input file (default=data/dev/dev_set")
+
+(opts, _) = optparser.parse_args()
+
+# List of languages expected
+lang = ['eng', 'fra', 'deu', 'ita', 'spa']
+
+suffix = opts.suffix
+train_dir = opts.train
+input_file = opts.input
+
+# Function to extract feature_set from input sentence
+def extract_five_grams (sentence):
+  feature_set = defaultdict(float)
+  for i in xrange(len(sentence) - 4):
+    gram = sentence[i:i+4]
+    feature_set[str(gram)] = 1
+  return feature_set
+
+# Building training data
+train = []
+for i in xrange(len(lang)):
+  for line in open(train_dir + lang[i] + suffix):
+    train.append((extract_five_grams(line.strip()), lang[i]))
+
+# Initialize Bayesian Classifier
+classifier = nltk.classify.NaiveBayesClassifier.train(train)
+
+# Classify input
+for line in open(input_file):
+  sentence = line.strip()
+  label = classifier.classify(extract_five_grams(sentence))
+  print label
